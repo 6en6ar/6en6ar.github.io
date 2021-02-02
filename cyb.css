@@ -1,0 +1,84 @@
+
+.col {
+    transition: 0.5s ease;
+    }
+    
+.col:hover {
+    cursor:pointer;
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    transition: 0.5s ease;
+    }
+    
+.col{
+    width:150px;
+    padding: 40px;
+    image-resolution: 400;
+   }
+
+#responsive
+{
+  display:none;
+}  
+
+.row{
+    margin: 0 auto;
+    text-align: center;
+    display:block;
+
+}
+#badge:hover{
+    cursor:pointer;
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    transition: 0.5s ease;
+}
+body {
+    background-image: url("cyber-1.jpg");
+    color: #000;
+  }
+  
+  .terminal {
+    position: relative;
+    color: rgb(60, 255, 0);
+    font-family: 'Source Code Pro', monospace;
+    border: 0.5px;
+    border-style: ridge;
+    border-color: rgb(60, 255, 0);
+    margin-top: 50px;
+    margin-left: 150px;
+    margin-right: 150px;
+    height: 370px;
+    background-color: rgba(0, 0, 0, 0.7);
+    line-height: 20px;
+  }
+  
+  .terminal-command {
+    margin: 7px;
+  }
+  
+  .terminal-output {
+    margin: 7px;
+  }
+  @media screen and (max-width: 600px) {
+    div.terminal{
+      display: none;
+    }
+    body{
+      background-color: black;
+      color:red;
+      font-family: 'Source Code Pro', monospace;
+    }
+    #responsive{
+      padding:25px;
+      display:block;
+
+    }
+    #badge{
+      
+
+    }
+  
+  }
