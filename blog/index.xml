@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Gmail OSINT</title>
+    <link>https://6en6ar.github.io</link>
+    <description>custom blog</description>
+    <managingEditor>gengar@gmail.com (6en6ar)</managingEditor>
+    <pubDate>Wed, 16 Feb 2022 14:18:11 -0500</pubDate>
+    <item>
+      <title>Test post</title>
+      <link>https://6en6ar.github.ioGmail_OSINT.html</link>
+      <description>This is short description</description>
+      <author>6en6ar</author>
+      <pubDate>Wed, 16 Feb 2022 14:15:47 -0500</pubDate>
+    </item>
+    <item>
+      <title>Test post</title>
+      <link>https://6en6ar.github.ionew_post.html</link>
+      <description>This is short description</description>
+      <author>6en6ar</author>
+      <pubDate>Thu, 03 Feb 2022 23:09:11 +0100</pubDate>
+    </item>
+  </channel>
+</rss>
