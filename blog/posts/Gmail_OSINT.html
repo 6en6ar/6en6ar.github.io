@@ -52,11 +52,11 @@
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="post-heading">
                             <h1>Gmail OSINT</h1>
-                            <h2 class="subheading">This is short description</h2>
+                            <h2 class="subheading">Some useful OSINT techniques when dealing with gmail accounts</h2>
                             <span class="meta">
                                 Posted by
                                 <a href="#!">6en6ar</a>
-                                on 2022-02-16 14:15:47
+                                on 2022-02-16
                             </span>
                         </div>
                     </div>
@@ -70,13 +70,54 @@
                     <div class="col-md-10 col-lg-8 col-xl-7 ct">
                         <h1>Introduction</h1>
 
-<p>Here comes the content.</p>
+<p>Often times when performing OSINT investigations you are preseneted with a gmail account sent to you by a phishing mail or scraped off of a suspicious website.
+    In this short post I will show you some techniques that I use when dealing with gmail accounts and performing Open Source Intelligence caveats on them.
+</p>
 
-<h2>How to</h2>
+<h2>Manual Approach</h2>
+<p>In the first approach we will discuss checking if the gmail account exists in the first place. One of the easiest method to do this is to
+    just go to the offical gmail sign in page and enter the email you received.
+</p>
+<p><img src="../images/gmailSignIn.png" alt="Gmail sign in mail enumeration" /></p>
+<p>As you can see google tells you if the gmail account is valid or not. Although this is noisy and not OPsec friendly you can still narrow down your search very quickly.
+    For those of you who like terminals you can easily check this with curl using proxychains or any other SOCKS tool to cover your tracks.</p>
+    <code style="color: limegreen">curl --head https://mail.google.com/mail/gxlu?email=gengar13790@gmail.com | grep "set-cookie:"
+    </code>
+    <p>You can see in the output that the response headers don't include set-cookie: header which means the gmail account doesn't exist. This issue was allegedly reported to Google but they ignored it.</p>
+    <p>Some organizations use their domain names when presenting e-mails but their mail can be managed by Google on the backend. Checking SPF records is the easiest way to determine this. Or you can use the previous method but as it can generate some logs it is not recommended.</p>
+    <code style="color:limegreen">dig @NAMESERVER DOMAIN.COM txt</code>
+    <p>Or you can use some online SPF checker websites if you prefer this approach. So basically if you receive an email for example: villain@attacker.com you can check if the mail is managed by google with the previous command. You should look for <i style="color:limegreen">include:spf</i> line in the output
+    You can also check the company MX records.</p>
+<p>Google is very security oriented and when performing google searches includeing gmail addresses you should include other search engines in your search regime because it was found that Google seems to filter Gmail search results!</p>
 
-<p>Just write markdown and when you want to reference the image, place the image inside the static/images and reference it in url ../images/nameoftheimage.png.</p>
+<h2>Obtaining a Google Account ID</h2>
+<p>Everyone who has ever done some google OSINT knows about this method because it can yield some fantastic results if leveraged correctly</p>
+<p>The way to obtain the ID is pretty straight forward. If you have a gmail account you just enter the target email address in the send field when composing a email or add it to your contact list. You open the developer tools (depending on your browser this will be different) and search for the Domain tab. Inside 
+    you should click ont he contact.google.com and in the response tab on the right side search for a long number that starts with a 1. That is a Google userID of the e-mail address you are investigating
+</p>
+<p>Once acquired you can enter it in different URLs to see if you can find any information on Google services like Google maps to see the locations visited by your target or much better
+    Google Photos to see who is behind the account.<br>
 
-<p><img src="../images/sample.png" alt="Image" /></p>
+    <code style="color:limegreen">Google Maps --> https://www.google.com/maps/contrib/USERID</code><br>
+    <code style="color:limegreen">Google Photos --> https://get.google.com/albumarchive/USERID</code></p>
+
+<h2>Automating the search with GHunt</h2>
+
+<p>This tool is simply fantastic as it covers al the previousl mentioned but just faster. It was written by <a style="color:limegreen" href="https://github.com/mxrch">mxrch</a> and you can find the tool on his GitHub profile:
+    <a style="color:limegreen" href="https://github.com/mxrch/">https://github.com/mxrch/GHunt</a></p>
+<p>The only thing you need to use this tool is a valid Gmail account since it needs the cookies to access some of the Google Services. Then you just provide it with a gmail address and you are ready to go. in our private investigations
+    this tool helped us a lot since it can provide you with information not acquireable with manual approaches. I won't cover it in this section because it deserves a tutorial of its own and there are plenty of those on google.
+</p>
+<p>You can also rely on Maltego and Spiderfoot since they have some pretty interesting modules to try. Maltego can let you check different social media and websites associated with an email, along with other email addresses. There are alson free open source tools
+    that can help you with this like for example Mosint <a style="color:limegreen" href="https://github.com/alpkeskin/mosint">https://github.com/alpkeskin/mosint</a>,
+</p>
+<p>Another great site i stumpled upon while researching is <a style="color:limegreen" href="https://tools.epieos.com/email.php">https://tools.epieos.com/email.php</a>. It searches some common search engines. It also can provide you with a Google UserID.</p>
+<p>You should also check the email address on various leak sites for passwords.</p>
+<a style="color:limegreen" href="https://intelx.io">https://intelx.io</a> is my first go website to search for leaks. If you make  an account you can make even more searches and also see some dumps that are not accessible when checking without an account. 
+<p><img src="../images/intelx.png" alt="Searching Intelx.io for leaked passwords" /></p>
+Check also: 
+<a style="color:limegreen" href="https://www.dehashed.com/">https://www.dehashed.com/</a>, <a style="color:limegreen" href="https://haveibeenpwned.com/">https://haveibeenpwned.com/</a>, <a style="color:limegreen" href="https://snusbase.com/">https://snusbase.com/</a></p>
+<p>For .onion sites you should look a little bit deeper. I will be covering this in a later post since it is a bit different than searching for credentials on the clear web, mostly since onion sites tend to be taken down and urls change more frequently.</p>
 
                     </div>
                 </div>
