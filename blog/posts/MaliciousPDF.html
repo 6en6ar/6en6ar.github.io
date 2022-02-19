@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    
+        <title>../MalPDF</title>
+        <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    
+    
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+    
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    
+    
+        <link href="../css/styles.css" rel="stylesheet" />
+    
+</head>
+
+    <body>
+        
+        
+<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../about.html">About</a></li>
+                
+            </ul>
+        </div>
+    </div>
+</nav>
+
+        
+        <header class="masthead" style="background-image: url('../assets/img/PDFMal.jpg');">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>Analyzing and understanding PDF Malware</h1>
+                            <h2 class="subheading">How attackers use PDF to distribute malware</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">6en6ar</a>
+                                on 2022-02-19
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7 ct">
+                        <h1>World of Evil PDFs</h1>
+                        <p>In a lot of cases of malware distribution the adversaries use malicious Word documents or documents that are part
+                            of the Office suite of tools because they contain Macros that can easily execute once the victim enables them. They are written in Visual Basic which is a powerful language
+                            that can even interact with the Windows API which is the crucial part of any Windows Malware
+                        </p>
+                        <p>In this section we will talk about a recent trend that some attackers have been abusing. We will look how easily one can create and distribute malware using PDF documentas
+                            which are an essential part of any business and users interact with them on regular basis. 
+                        </p>
+                        <p>When I started researching PDF malware there wasn't much on the internet except some Adobe PDF Reader vulnerabilities which are always present and can help attackers achiee RCE on the victim stations.
+                            That was the case until I found this awesome post which talks about embedding executables inside PDF files and later executing them using Javascript, since most of the PDF readers have the ability to execute Javascript which is crazy.
+                            <a style="color:limegreen" href="https://nora.codes/post/pdf-embedding-attacks/">https://nora.codes/post/pdf-embedding-attacks/</a>
+                        </p>
+                        <p>I wrote some Proof of Concept code that is available on my github page and tested it against the latest Foxit PDFReader but the Javascript execution was blocked by the software.
+                            <a style="color:limegreen" href ="https://github.com/6en6ar/MaliciousPDF">https://github.com/6en6ar/MaliciousPDF</a>
+                            <p>In short it basically uses SettingContent-ms XML files that are embedded inside the PDF files and can be called upon using "exportDataObject" function inside JavaScript. These XML files are special files that have a DeepLink field which can execute any command given.
+                            So just think about Powershell in-memory execution and you'll get there.. You can use a number of these XML files and embed them to make a dropper.</p>
+                                  
+                        </p>
+                        <p>This is when I read in a post that some APTs distribute their phishing links inside PDF files so I added this functionality too. You can easily generate your malicious files with the above mentioned tool using Pythons fpdf and PyPDF4 libraries</p>
+                        <p>This is a very common method to force users to enter their domain credentials inside phishing forms on the attacker domain Since PDF documents allow you to visit these sites by just clicking on a link.</p>
+                        Images can also contain links inside PDF files so the victims can be lured more easily.
+                        <p>Most desktop users use Google Drive and One Drive storage to keep their photos. By clicking on a photo the malicious Javascript can open a prompt inside the malicious PDF file that prompts the user for their credentials for the storage service and then collects them sending them using XMLHttpRequest, fetch from JS</p>
+                        Planting PDF files with DLLs or real binary files can set the stage for a bigger attack later in the cyber kill chain.
+                        <p>For even better understanding of these before mentioned methods of social engineering check out the above Github link.( P.S. It's not malicious ) </p>
+
+                </div>
+            </div>
+        </article>
+        
+        
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="https://twitter.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.github.com/6en6ar">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="mailto:6eng4r@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://6en6ar.github.io/index.xml">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; Gmail OSINT 2022</div>
+                        <div class="small text-center text-muted fst-italic">Made with <a href="https://github.com/lateralusd/bloggy">bloggy</a></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <style>
+            .ct > p img {
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <script src="../js/scripts.js"></script>
+    </body>
+</html>
