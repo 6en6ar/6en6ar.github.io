@@ -55,7 +55,7 @@
                             <span class="meta">
                                 Posted by
                                 <a href="#!">6en6ar</a>
-                                on 2022-XX-XX
+                                on 2022-03-11
                             </span>
                         </div>
                     </div>
@@ -68,9 +68,43 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7 ct">
                         <h1>Introduction</h1>
-
-
-
+                        <p>In this post we will look at possible ways you can leverage the Dark web in order to perform open source intelligence. We will not dive into the theory behind the dark and deep web because 
+                            there are numerous posts out there explaining it so we will focus mostly on the juicy stuff and how you can leverage it to your advantage.
+                        </p>
+                        <p>We will start with the search engines that are most commonly used to get you around the diving zone. You should also consider finding a trusting site with links to other .onion sites
+                            like <b>OnionTree, HiddenWiki, Hunchly  and many others</b> In this tutorial i won't be sharing any .onion links since they change often.
+                        </p>
+                        <h1>Search for the dark</h1>
+                        <p>Probably the most commonly used "Google" for the Dark web is the <b>Ahmia Search</b>. It filters by default child pornography sites and many abusive services. It is also supported by the Tor project
+                        so it is definitely a reliable source</p>
+                        <p><b>DuckDuckGo</b> also has it's own dark web search indexer, <b>Haystak</b> which is one of the largest indexers with over 1.5 billion sites indexed since it's creation.
+                        <b>Kilos</b> is on of those darker search engines used to find hidden services more commonly used by the cyber criminals and can provide you with ton of information.
+                        There is also a newer one called <b>DarkSearch</b> created allegedly by a cyber security researcher in order to help others get around the dark web in pursuit of Threat intelligence information on hacking forums.
+                    </p>
+                    <h2>Scanning onion sites for vulnerabilites and finding links</h2>
+                    <p>So once you find a website you may want to probe it for open ports or check for some common vulnerabilites using nmap but you need to proxy it through TOR using proxychains. You can also use a prebuilt 
+                        alpine image that has some settings acustomed to using TOR. You can check it out here --> <a href="https://github.com/milesrichardson/docker-onion-nmap"style="color:limegreen">https://github.com/milesrichardson/docker-onion-nmap</a>
+                    </p>
+                    <p>Another great tool used for crawling onion sites for other links is TorCrawl. You can clone it from github --> <a style="color:limegreen" href="https://github.com/james04gr/TorCrawl.py">https://github.com/james04gr/TorCrawl.py</a></p>
+                    <p>If you want to utilize the DarkSearch api from your command line you can use tool called DarkDump which takes a string for an input and provides you with links to onion sites that use that string.
+                        You can clone it from here --> <a style="color:limegreen" href="https://github.com/josh0xA/darkdump">https://github.com/josh0xA/darkdump</a>.
+                    </p>
+                    <p>Katana is also a great tool that uses Google dorking to find links on both Clear and Dark web --> <a style="color:limegreen" href="https://github.com/TebbaaX/Katana">https://github.com/TebbaaX/Katana</a>.</p>
+                    <h2>Other DW OSINT tools of use</h2>
+                    <p>I recently stumpled upon a great websites that monitors Tor activity. Check it out here --><a style="color:limegreen" href="https://torflow.uncharted.software/">https://torflow.uncharted.software/</a></p>
+                    <p><img src="../images/torflow.png" alt="Torflow" /></p>
+                    <h2>Searching for credentials on TOR</h2>
+                    <p>Although many breached databases and credentials circulate mostly on hacking forums, there is also a posibility that credentials were dumped on an online dump site. Pastebin is the most known bin site on the clear web
+                        but there are many others on the dark web including Pastebin that has it's own onion site, Hastebin, zbin, Zerobin, DeepPaste, StrongholdPaste, Pastepad the list go on. you should check those out sinceI used many of thebefore mentioned
+                        while performing investigations and they yielded great results.
+                    </p>
+                    <h2>Making burner accounts on TOR</h2>
+                    <p>As many of you know our identity is very important when performing OSINT investigations since we can easily be doxxed if you are not careful.
+                        Making accounts will become casual for you when you start entering hacking forums in search for threat intelligence so it is important to have special e-mails for these ocassions. I encourage you to use a Password manager 
+                        for managing your credentials since ou can get loset very easily and forget about your nicknames. One thing I also recommend is to always use seperate nicknames when registering anywhere on the Dark web!!
+                        </p>
+                        <p>One of the most popular privacy oriented mail providers is definitely ProtonMail which has an onion site counterpart. TorBox is also a great choice, along with Mail2Tor and many other. I am leaving this to you to research by yourself.
+                    </p>
 </div>
                 </div>
             </div>
