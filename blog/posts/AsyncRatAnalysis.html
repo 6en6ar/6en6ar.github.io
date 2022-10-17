@@ -121,7 +121,7 @@
                             Output from DetectItEasy:
                         </p>
                         <p><img src="../images/die.png" alt="detectItEasy" /></p>
-                        <p>Inside ILSpy we have the Mandark class that performs the last process injection using Process hollowing. It uses MsBuild.exe as the initial process name in order to inject the AsyncRat inside of it. The file is dropped into the current directory before execution.
+                        <p>The main function contains the AsyncRat in compressed format and encoded with base4. The Mandark class performs the last process injection part using Process hollowing, a common malware injection technique. It uses MsBuild.exe as the initial process name in order to inject the AsyncRat inside of it.
                             The process ic created with CREATE_SUSPENDED flag ( Denoted by 4 inside function arguments). The process is loaded but it is not executing. The malware then "hollows or carves" the code from msbuild.exe using ZwUnmapViewOfSection in this case.
                             It then allocates memory for the new code using VirtualAllocEx and makes it writable and executable. It uses WriteProcessMemory to write the malware payload inside the mapped section and ResumeThread to continue the execution.
                         </p>
