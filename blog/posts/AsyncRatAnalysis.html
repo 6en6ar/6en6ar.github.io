@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    
+        <title>../AsyncRat</title>
+        <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    
+    
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+    
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    
+    
+        <link href="../css/styles.css" rel="stylesheet" />
+    
+</head>
+
+    <body>
+        
+        
+<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+    <div class="container px-4 px-lg-5">
+        
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="../about.html">About</a></li>
+                
+            </ul>
+        </div>
+    </div>
+</nav>
+
+        
+        <header class="masthead" style="background-image: url('../assets/img/asyncRat_bg.jpg');">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>Malware analysis of AsyncRat dropper</h1>
+                            <h2 class="subheading">Taking apart a dropper implemented in python used for distributing AsyncRat malware</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">6en6ar</a>
+                                on 2022-10-17
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7 ct">
+                        <h1>AsyncRat</h1>
+                        <p>AsyncRAT is a Remote Access Tool (RAT) designed to remotely monitor and control other computers through a secure encrypted connection. It is an open source remote administration tool, however, 
+                            it could also be used maliciously because it provides functionality such as keylogger, remote desktop control, and many other functions that may cause harm to the victim’s computer.
+                            It is mostly used for data theft and exfiltration. It also acts as a spreader of other malware types such as ransomware.
+                            It was mostly distributed using spear phishing, with exploit kits and various droppers from which we will take one of them in this short post and reverse it.
+                        </p>
+                        <p> This sample was collected on Malware Bazaar, a popular malware distribution platform used by researchers to share information about samples. You can find their website here:
+                            <a style="color:limegreen" href="https://bazaar.abuse.ch/">https://bazaar.abuse.ch/</a>
+                        </p>
+                        <h2>Initial analysis</h2>
+                        <p>Hashes: </p>
+                        <p>MD5: <b>115fe7c1e629ed3858c82060011215a2</b>
+                        </p>
+                        <p>SHA1: <b>274734c1442a7ba48506580eaf212f758e0d7ad6</b></p>
+
+                        <p>The dropper came as a python file with a detection rate of only 11 vendors detecting it on Virus total:
+                            <p><img src="../images/vt_dropper.png" alt="vt_rate" /></p>
+                            The current spreading vector was not included since python scripts don't initally run on windows when clicked on. The victim will be lured to Open
+                            the file somehow to start the process of injecting the asyncRat malware into the system.
+                        </p>
+                        <p>The dropper starts of with this simple code:</p>
+                        <pre><code style="color:limegreen">
+                            b64_data = REDACTED
+                            payload = base64.b64decode(b64_data)
+                            byte_payload=bytearray(payload)
+                            new_arr = bytearray()
+                            for b in byte_payload:
+                                    
+                                new_arr.append(b-number_to_sub)
+                                
+                            decoded_arr=new_arr.decode()
+                            file = open("decoded.bin", "wb") # added
+                            file.Write(decoded_arr)# added
+                            file.Close() # added
+                            #exec(decoded_arr)% 
+
+                        </code></pre>
+                        <p>The redacted part of the variable contains more python code obfuscated using base64.
+                        The exec part is commented out since I didn't want to execute the code. The added lines were used in order to drop the payload to disk in another file so we can 
+                        analyze it more easily.</p>
+                        <p>The second part of the payload is another python file but this one is more interesting. It uses something called .Net assembly execution inside python, a 
+                            fairly new technique used in the wild by the adversaries. The code looks like this
+                        </p>
+                        <p><img src="../images/2_stage_drop.png" alt="2stage" /></p>
+                        <p>As you can see the base64 data blob is turned into a PE/COFF file and injected using Assembly.Load function. According to Microsoft documentation this module
+                            loads the assembly with a common object file format (COFF)-based image containing an emitted assembly. The assembly is loaded into the application domain of the caller.
+                        </p>
+                        <p>Using this the dropper calls Invoke which will execute the dropped executable and bring us to the third stage.</p>
+                        <h2>Extracting the injector.exe</h2>
+                        <p>In order to extract the executable file i just decoded the first base64 blob using Cyber chef. This got us our first MZ file. Using Detect it easy it was concluded that it was
+                            a .Net executable so we loaded it into iLSpy.
+                            Output from DetectItEasy:
+                        </p>
+                        <p><img src="../images/die.png" alt="detectItEasy" /></p>
+                        <p>Inside ILSpy we have the Mandark class that performs the last process injection using Process hollowing. It uses MsBuild.exe as the initial process name in order to inject the AsyncRat inside of it. The file is dropped into the current directory before execution.
+                            The process ic created with CREATE_SUSPENDED flag ( Denoted by 4 inside function arguments). The process is loaded but it is not executing. The malware then "hollows or carves" the code from msbuild.exe using ZwUnmapViewOfSection in this case.
+                            It then allocates memory for the new code using VirtualAllocEx and makes it writable and executable. It uses WriteProcessMemory to write the malware payload inside the mapped section and ResumeThread to continue the execution.
+                        </p>
+                        <p>Decompiled code of Mandark class is shown below:</p>
+                        <p><img src="../images/mandark.png" alt="Mandark" /></p>
+                        <h2>Conclusion</h2>
+                        <p>It is worth noting that AsyncRat is used for remote administration of the machine used by system administrators but it has grown in popularity on hacking forums and overdeveloped by malware authors since the code for it is open source.
+                            The various droppers used for the infection are always re-emerging and techinques used in this blog can be applied to any malware.
+
+                        </p>
+                        
+
+                </div>
+            </div>
+        </article>
+        
+        
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="https://twitter.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.github.com/6en6ar">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="mailto:6eng4r@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://6en6ar.github.io/index.xml">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; AsyncRat dropper malware analysis 2022</div>
+                        <div class="small text-center text-muted fst-italic">Made with <a href="https://github.com/lateralusd/bloggy">bloggy</a></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <style>
+            .ct > p img {
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <script src="../js/scripts.js"></script>
+    </body>
+</html>
