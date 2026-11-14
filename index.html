@@ -1,50 +1,69 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Security: only load files from this site, no inline scripts, no forms. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="6en6ar's blog: malware analysis, OSINT and red teaming.">
+  <meta name="theme-color" content="#000000">
+  <title>6en6ar :: blog</title>
+  <link rel="icon" href="gengar.ico">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="window">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="cyb.css">
-    
-    <title>Favorite pokemon ?</title>
-    <link rel="shortcut icon" href="gengar.ico" />
-  </head>
-  <body >
-    <div class="terminal"></div>
-    <div id="responsive">Cyber security researcher<br>
-      Penetration tester, Red teamer, Developer and Malware analyst<br>
-      <br>
-      <br>
-     In love with everything Cyber !<br>
-     <br>
-     <br>
-     <br>
+    <div class="titlebar" aria-hidden="true">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="title">g3n6aR@darkside: ~/root</span>
+    </div>
+
+    <!-- Header navigation -->
+    <nav class="tabs" aria-label="Main">
+      <a href="index.html" class="active" aria-current="page">~/blog</a>
+      <a href="about.html">about.txt</a>
+    </nav>
+
+    <div class="workspace">
+      <!-- Left: list of posts (filled in by js/blog.js) -->
+      <aside class="sidebar" aria-label="Posts">
+        <div class="sidebar-title">EXPLORER</div>
+        <div class="tree-root">&#9662; posts/</div>
+        <ul class="tree" id="post-list"></ul>
+        <nav class="pager" id="side-pager" aria-label="Pages"></nav>
+      </aside>
+
+      <!-- Right: the selected post (filled in by js/blog.js) -->
+      <main class="editor">
+        <div class="editor-bar"><div class="editor-tab" id="editor-tab">motd.txt</div></div>
+        <div class="content" id="content">
+          <p class="cmd"><span class="prompt">g3n6aR@darkside:~/root$</span> loading<span class="cursor"></span></p>
+          <noscript><p class="error">This blog needs JavaScript enabled to load the posts.</p></noscript>
+        </div>
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="statusbar">
+      <div class="group">
+        <span class="mode">NORMAL</span>
+        <span id="status-file">motd.txt</span>
+        <span id="status-count"></span>
+      </div>
+      <div class="group">
+        <a href="https://github.com/6en6ar" target="_blank" rel="noopener noreferrer">github</a>
+        <a href="https://www.linkedin.com/in/pr0fil3/" target="_blank" rel="noopener noreferrer">linkedin</a>
+        <a href="mailto:6en6ar@protonmail.com">mail</a>
+        <span>UTF-8</span>
+        <span>&copy; 6en6ar</span>
+      </div>
+    </footer>
 
   </div>
 
-    <div class="templates" style="display: none">
-      <div class="terminal-command">
-        <span class="prefix"></span>
-        <span class="content"></span>
-      </div>
-    </div>
-    <div class="row">
-        <a href="https://www.linkedin.com/in/pr0fil3/"><img class="col" src="linkedinIcon.png"></a>
-        <a href="https://github.com/6en6ar"><img class="col" src="githubIcon.png"></a>
-        <a href="mailto:6en6ar@protonmail.com"><img class="col" src="mail.png" ></a> 
-        <a href="https://6en6ar.github.io/blog/index.html"><img class="col" src="hacker.png"></a>
-    </div>
-    <div id="badge" class="mx-auto" style="width: 200px;">
-        <a href="https://www.hackthebox.eu/"><script src="https://www.hackthebox.eu/badge/158843"></script></a>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
-
-  </body>
-  
+  <script src="js/markdown.js"></script>
+  <script src="js/blog.js"></script>
+</body>
 </html>
