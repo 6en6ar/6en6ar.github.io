@@ -572,8 +572,10 @@ hr {
     padding-left: 0;
   }
 
+  /* Scale the 59-column banner to the screen width (minus .content padding),
+     leaving headroom for wider fallback glyphs on block characters. */
   .banner {
-    font-size: 9px;
+    font-size: min(14px, calc((100vw - 28px) / 40));
   }
 
   .avatar {
